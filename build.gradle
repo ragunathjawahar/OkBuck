@@ -1,6 +1,12 @@
 buildscript {
+    configurations.all {
+        resolutionStrategy {
+            dependencySubstitution {
+                substitute module('com.tunnelvisionlabs:antlr4') with module('org.antlr:antlr4:4.5.3')
+            }
+        }
+    }
     repositories {
-        mavenLocal()
         jcenter()
     }
     dependencies {
@@ -8,17 +14,18 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.2.0'
+        classpath 'com.squareup.sqldelight:gradle-plugin:0.4.3'
     }
 }
 
 allprojects {
     repositories {
-        mavenLocal()
         jcenter()
     }
 }
 
 ext {
+    // due to travis-ci, we must keep build tool at v23.0.1
     androidCompileSdkVersion = 23
     androidBuildToolsVersion = '23.0.1'
     androidMinSdkVersion = 15

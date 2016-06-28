@@ -149,6 +149,12 @@ final class BuckFileGenerator {
             ":${rule.name}"
         }
 
+        // SqlDelight
+        if (target.sqldelight != null) {
+            rules.add(GenSqlDelightRuleComposer.compose(target))
+            deps.add(":sqldelight_${target.name}")
+        }
+
         // Lib
         androidLibRules.add(AndroidLibraryRuleComposer.compose(
                 target,

@@ -43,6 +43,10 @@ final class AndroidLibraryRuleComposer extends AndroidBuckRuleComposer {
         if (target.retrolambda) {
             postprocessClassesCommands.add(RetroLambdaGenerator.generate(target))
         }
+        Set<String> srcSet = new HashSet<>(target.main.sources)
+        if (target.sqldelight) {
+            srcSet.addAll(target.sqldelight.sources)
+        }
 
         List<String> testTargets = [];
         if (target.robolectric && target.test.sources) {
@@ -53,7 +57,7 @@ final class AndroidLibraryRuleComposer extends AndroidBuckRuleComposer {
                 src(target),
                 ["PUBLIC"],
                 libraryDeps,
-                target.main.sources,
+                srcSet,
                 target.manifest,
                 target.annotationProcessors as List,
                 libraryAptDeps,
